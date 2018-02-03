@@ -1,6 +1,7 @@
 import java.util.Random;
+import java.util.function.Supplier;
 
-public class Client implements Runnable {
+public class Client implements Supplier {
 
     private Employee employee;
     private int id;
@@ -18,8 +19,9 @@ public class Client implements Runnable {
         return employee;
     }
 
+
     @Override
-    public void run() {
+    public String get() {
         System.out.println(Thread.currentThread().getName() + "(Start) Client "+ getId()+" Attend by: " + getEmployee().getClass()+ " with id: "+ getEmployee().getId());
         int n = new Random().nextInt(5000)+10000;
         try {
@@ -27,7 +29,7 @@ public class Client implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(Thread.currentThread().getName() + "(End) Client " + getId()+ " Time:" + n +"ms");
         employee.setStatus(true);
+        return  Thread.currentThread().getName() + "(End) Client " + getId()+ " Time:" + String.valueOf(n) + "ms";
     }
 }

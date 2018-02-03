@@ -1,3 +1,5 @@
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
 public class Dispatcher {
@@ -16,7 +18,9 @@ public class Dispatcher {
             for(Employee employees : bank.getEmployees()){
                 if(employees.isStatus()){
                     Client client = new Client(employees,count);
-                    executor.execute(client);
+                    CompletableFuture<String> future = CompletableFuture.supplyAsync(client,executor).thenAccept((n) -> {
+                        System.out.println(n);
+                    });
                     employees.setStatus(false);
                     count++;
                     break;
@@ -28,4 +32,5 @@ public class Dispatcher {
         }
         System.out.println("Finished all Clients");
         }
+
 }
