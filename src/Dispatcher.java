@@ -20,7 +20,7 @@ public class Dispatcher {
             for(Employee employees : bank.getEmployees()){
                 if(employees.isStatus()){
                     Client client = new Client(employees,clientId);
-                    CompletableFuture<String> future = CompletableFuture.supplyAsync(client,executor).thenAccept((n) -> {
+                    CompletableFuture.supplyAsync(client,executor).thenAccept((n) -> {
                         System.out.println(n);
                     });
                     employees.setStatus(false);
