@@ -17,6 +17,17 @@ public class Dispatcher {
     public void attend(){
         int clientId = 0;
         while(clientId < numberClients){
+            if(bank.getEmployees().size() > 0){
+                Employee employee = bank.getEmployees().poll();
+                CompletableFuture.supplyAsync(new Client(employee,clientId),executor).thenAccept((n) -> {
+                    System.out.println(n);
+                    System.out.println(bank.getEmployees().size());
+                    returnEmployee((Employee) n);
+                });
+                clientId++;
+                System.out.println(clientId);
+            }
+            /*
             for(Employee employees : bank.getEmployees()){
                 if(employees.isStatus()){
                     Client client = new Client(employees,clientId);
@@ -27,12 +38,17 @@ public class Dispatcher {
                     clientId++;
                     break;
                 }
-            }
+            }*/
         }
         executor.shutdown();
         while(!executor.isTerminated()){
         }
         System.out.println("Finished all Clients");
         }
+
+    private void returnEmployee(Employee n) {
+        System.out.println("hi entre");
+        bank.getEmployees().add(n);
+    }
 
 }

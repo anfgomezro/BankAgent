@@ -21,7 +21,7 @@ public class Client implements Supplier {
 
 
     @Override
-    public String get() {
+    public Employee get() {
         System.out.println(Thread.currentThread().getName() + "(Start) Client "+ getId()+" Attend by: " + getEmployee().getClass()+ " with id: "+ getEmployee().getId());
         int n = new Random().nextInt(5000)+10000;
         try {
@@ -30,6 +30,7 @@ public class Client implements Supplier {
             e.printStackTrace();
         }
         employee.setStatus(true);
-        return  Thread.currentThread().getName() + "(End) Client " + getId()+ " Time:" + String.valueOf(n) + "ms";
+        System.out.println(Thread.currentThread().getName() + "(End) Client " + getId()+ " Time:" + String.valueOf(n) + "ms");
+        return  employee;
     }
 }
