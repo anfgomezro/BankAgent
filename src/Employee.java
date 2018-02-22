@@ -25,4 +25,6 @@ public abstract class Employee {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    public abstract String getType();
 }
