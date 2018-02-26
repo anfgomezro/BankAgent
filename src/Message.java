@@ -39,4 +39,8 @@ public class Message {
     public String getTransactionType() {
         return transactionType;
     }
+
+    public String getCustomerEmail(){
+        return customerEmail;
+    }
 }

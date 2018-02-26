@@ -32,7 +32,9 @@ public class Dispatcher {
                             .supplyAsync(client,executor)
                             .thenAccept(message -> {
                         try {
-                            sendMessage(message);
+                            Operations operation = new Operations();
+                            operation.sendMessage(message);
+                            operation.sendCupon(message);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -48,17 +50,6 @@ public class Dispatcher {
         }
         System.out.println("Finished all Clients");
     }
-
-    private void sendMessage(Message message){
-        getAuditChain().logProcess(AuditModule.TT_DEPOSIT_TV_10000,message);
-    }
-
-    private AuditModule getAuditChain() {
-        AuditModule depositOverTenthousand = new AuditDeposit(AuditModule.TT_DEPOSIT_TV_10000);
-        depositOverTenthousand.nextAuditModule(null);
-        return depositOverTenthousand;
-    }
-
 
     private Transaction generateTransaction(){
         Transaction transaction = null;
