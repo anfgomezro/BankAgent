@@ -33,14 +33,8 @@ public class Client implements Supplier<Message>{
     }
 
     @Override
-<<<<<<< HEAD
-    public Employee get() {
-        System.out.println(Thread.currentThread().getName() + "(Start) Client "+ getId()+" Attend by: " + getEmployee().getClass()+ " with id: "+ getEmployee().getId());
-        int n = new Random().nextInt(5000)+10000;
-=======
     public Message get() {
 
->>>>>>> 9873565b3b0d264e911ebd656bfa0bdc888ee53a
         try {
             System.out.println(Thread.currentThread().getName() + "(Start) Client "+ getId()+" Attend by: " + getEmployee().getType()+ " with id: "+ getEmployee().getId());
             int n = new Random().nextInt(5000)+10000;
@@ -53,14 +47,9 @@ public class Client implements Supplier<Message>{
             e.printStackTrace();
             return null;
         }
-<<<<<<< HEAD
-        employee.setStatus(true);
-        System.out.println(Thread.currentThread().getName() + "(End) Client " + getId()+ " Time:" + String.valueOf(n) + "ms");
-        return  employee;
-=======
     }
 
-    public String getEmail() {
+    public String getEmail(){
         return email;
     }
 
@@ -74,6 +63,5 @@ public class Client implements Supplier<Message>{
 
     public void setAccount(Account account) {
         this.account = account;
->>>>>>> 9873565b3b0d264e911ebd656bfa0bdc888ee53a
     }
 }

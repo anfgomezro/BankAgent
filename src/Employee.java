@@ -4,10 +4,9 @@ public abstract class Employee {
     private boolean status;
     private int priority;
 
-    public Employee(int id,boolean status,int priority) {
+    public Employee(int id,boolean status) {
         this.id = id;
         this.status = status;
-        this.priority = priority;
     }
 
     public int getPriority() {

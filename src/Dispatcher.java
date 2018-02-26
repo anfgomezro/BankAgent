@@ -1,38 +1,30 @@
-
-import java.util.ArrayList;
-import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 public class Dispatcher {
 
-
+    private static Dispatcher dispatcher = new Dispatcher();
     private Bank bank;
     private ExecutorService executor;
     private int numberClients;
-    ArrayList<Message> messages = new ArrayList<>();
 
-    public Dispatcher(Bank bank, ExecutorService executor,int numberClients) {
+    public  static  Dispatcher getInstance(){
+        return dispatcher;
+    }
+
+    private Dispatcher(){ }
+
+    public void constructDispatcher(Bank bank, ExecutorService executor, int numberClients){
         this.bank = bank;
         this.executor = executor;
         this.numberClients = numberClients;
+
     }
 
     public void attend(){
         int clientId = 0;
         while(clientId < numberClients){
-            if(bank.getEmployees().size() > 0){
-                Employee employee = bank.getEmployees().poll();
-                CompletableFuture.supplyAsync(new Client(employee,clientId),executor).thenAccept((n) -> {
-                    System.out.println(n);
-                    System.out.println(bank.getEmployees().size());
-                    returnEmployee((Employee) n);
-                });
-                clientId++;
-                System.out.println(clientId);
-            }
-            /*
             for(Employee employees : bank.getEmployees()){
                 if(employees.isStatus()){
                     Client client = new Client(employees, clientId, generateTransaction(), new Account(1));
@@ -41,33 +33,23 @@ public class Dispatcher {
                             .thenAccept(message -> {
                         try {
                             sendMessage(message);
-//                            messages.add(message);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
                     });
-
                     employees.setStatus(false);
                     clientId++;
                     break;
                 }
-            }*/
+            }
         }
         executor.shutdown();
         while(!executor.isTerminated()){
         }
         System.out.println("Finished all Clients");
- //       makeFile();
     }
 
-//    private void makeFile() {
-//        for(Message message : messages){
-//            sendMessage(message);
-//        }
-//        System.out.println(messages);
-//    }
-
-    public void sendMessage(Message message){
+    private void sendMessage(Message message){
         getAuditChain().logProcess(AuditModule.TT_DEPOSIT_TV_10000,message);
     }
 
@@ -96,10 +78,4 @@ public class Dispatcher {
         }
         return transaction;
     }
-
-    private void returnEmployee(Employee n) {
-        System.out.println("hi entre");
-        bank.getEmployees().add(n);
-    }
-
 }
