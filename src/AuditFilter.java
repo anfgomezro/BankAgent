@@ -2,20 +2,20 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AuditDeposit extends AuditModule {
+public class AuditFilter extends AuditModule{
 
-    public AuditDeposit(int level){
+    public AuditFilter(int level){
         this.level = level;
     }
 
     @Override
-    protected void processMessage(Message message) {
+    public void processMessage(Message message) {
         if(message.getTransactionType().equals("Deposit") && message.getTransactionValue() > 10000){
-            addMessagetoFile(message);
+            writeInFile(message);
         }
     }
 
-    private void addMessagetoFile(Message message){
+    private void writeInFile(Message message){
         try{
             BufferedWriter bw = new BufferedWriter(new FileWriter(filePath,true));
             bw.write(message.getCustomerID()+","+message.getAccountId()+","+message.getTransactionValue());
@@ -24,5 +24,7 @@ public class AuditDeposit extends AuditModule {
         } catch (IOException e){
             e.printStackTrace();
         }
+
     }
 }
+

@@ -1,5 +1,3 @@
-import java.util.Date;
-
 public class Message {
 
     private int customerID;
@@ -20,7 +18,6 @@ public class Message {
         this.agentId = employee.getId();
         this.messageType = message;
         this.accountId = client.getAccount().getId();
-
     }
 
     public int getCustomerID() {
@@ -32,7 +29,6 @@ public class Message {
     }
 
     public float getTransactionValue() {
-
         return transactionValue;
     }
 

@@ -1,6 +1,8 @@
-public abstract class AuditModule {
+public abstract class AuditModule{
 
-    public static final int TT_DEPOSIT_TV_10000 = 1;
+    public static final int FILTER = 1;
+    public static final int FILE = 1;
+
     protected int level;
     protected AuditModule nextAudit;
     protected static String filePath = System.getProperty("user.dir")+"/src/DEPOSITSTOREVIEW-02212018.txt";
@@ -17,8 +19,5 @@ public abstract class AuditModule {
             nextAudit.logProcess(level,message);
         }
     }
-
-    abstract protected void processMessage(Message message);
-
-
+    public abstract void processMessage(Message message);
 }

@@ -1,4 +1,4 @@
-abstract public class MktService {
+abstract public class MktService{
 
     public void updateInformation(String customerID, Double transactionValue, String email) {
         System.out.println("Check value :" + transactionValue);

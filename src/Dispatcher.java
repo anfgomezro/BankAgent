@@ -1,13 +1,15 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
-public class Dispatcher {
+public class Dispatcher implements Observable{
 
     private static Dispatcher dispatcher = new Dispatcher();
     private Bank bank;
     private ExecutorService executor;
     private int numberClients;
+    private ArrayList<Observer> observers;
 
     public  static  Dispatcher getInstance(){
         return dispatcher;
@@ -19,6 +21,7 @@ public class Dispatcher {
         this.bank = bank;
         this.executor = executor;
         this.numberClients = numberClients;
+        observers = new ArrayList<>();
 
     }
 
@@ -32,9 +35,7 @@ public class Dispatcher {
                             .supplyAsync(client,executor)
                             .thenAccept(message -> {
                         try {
-                            Operations operation = new Operations();
-                            operation.sendMessage(message);
-                            operation.sendCupon(message);
+                            sendMessage(message);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -49,6 +50,10 @@ public class Dispatcher {
         while(!executor.isTerminated()){
         }
         System.out.println("Finished all Clients");
+    }
+
+    private void sendMessage(Message message) {
+        notifyObservers(message);
     }
 
     private Transaction generateTransaction(){
@@ -68,5 +73,23 @@ public class Dispatcher {
                 break;
         }
         return transaction;
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        int i  = observers.indexOf(observer);
+        observers.remove(i);
+    }
+
+    @Override
+    public void notifyObservers(Message message) {
+        for (Observer observer : observers){
+            observer.update(message);
+        }
     }
 }

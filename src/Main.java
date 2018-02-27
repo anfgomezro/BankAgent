@@ -24,6 +24,8 @@ public class Main {
         Bank bank = new Bank(numberCashiers,numberSupervisors,numberDirector);
         ExecutorService executor = Executors.newFixedThreadPool(numberClients);
         Dispatcher.getInstance().constructDispatcher(bank,executor,numberClients);
+        AuditObserver auditObserver = new AuditObserver(Dispatcher.getInstance());
+        MktServiceObserver mktServiceObserver = new MktServiceObserver(Dispatcher.getInstance());
         Dispatcher.getInstance().attend();
     }
 }
